@@ -1,4 +1,5 @@
 use anchor_lang::prelude::*;
+mod errors;
 
 declare_id!("DnDa7gtFZNmZMPupeJZVU5TK1FEwJTxBSR9C9cPzxr2G");
 
@@ -19,18 +20,25 @@ pub mod simple_transfer {
     }
 
     pub fn deposit(_context: Context<Deposit>, _title: String, _amount: u64) -> Result<()> {
+        let signer = &_context.accounts.signer;
+        let saving_account = &_context.accounts.saving_account;
+
+        if signer.lamports() < _amount {
+            return Err(errors::Errors::NotEnoughFunds.into());
+        }
+
         let transfer_ix = anchor_lang::solana_program::system_instruction::transfer(
-            &_context.accounts.signer.key(),
-            &_context.accounts.saving_account.key(),
+            &signer.key(),
+            &saving_account.key(),
             _amount,
         );
-        anchor_lang::solana_program::program::invoke(
+        let transfer_tx = anchor_lang::solana_program::program::invoke(
             &transfer_ix,
-            &[
-                _context.accounts.signer.to_account_info(),
-                _context.accounts.saving_account.to_account_info(),
-            ],
-        )?;
+            &[signer.to_account_info(), saving_account.to_account_info()],
+        );
+        if transfer_tx.is_err() {
+            return Err(errors::Errors::TransferError.into());
+        }
 
         Ok(())
     }
