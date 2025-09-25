@@ -7,6 +7,7 @@ skip-lint = false
 
 [programs.localnet]
 default = "FBvqDQBVxwaeai19TdAnhsLZ1xFdCk2XKKp9u5Tooa8f"
+simple_transfer = "DnDa7gtFZNmZMPupeJZVU5TK1FEwJTxBSR9C9cPzxr2G"
 
 [registry]
 url = "https://api.apr.dev"
