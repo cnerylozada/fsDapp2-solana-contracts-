@@ -60,10 +60,11 @@ struct CreateAccount<'info> {
 #[derive(Accounts)]
 #[instruction(_title: String)]
 struct Deposit<'info> {
-    #[account(seeds = [signer.key().as_ref(), _title.as_bytes()],
+    #[account(mut, seeds = [signer.key().as_ref(), _title.as_bytes()],
     bump = saving_account.bump_seed)]
     saving_account: Account<'info, SavingAccount>,
 
+    #[account(mut)]
     signer: Signer<'info>,
 
     system_program: Program<'info, System>,
@@ -72,7 +73,7 @@ struct Deposit<'info> {
 #[account]
 #[derive(InitSpace)]
 struct SavingAccount {
-    #[max_len(15)]
+    #[max_len(20)]
     title: String,
     created_at: u64,
     bump_seed: u8,
