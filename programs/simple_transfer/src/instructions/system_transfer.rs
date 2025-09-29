@@ -4,7 +4,7 @@ use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
 #[instruction(_title: String)]
-pub struct Deposit<'info> {
+pub struct SystemTransfer<'info> {
     #[account(mut, seeds = [signer.key().as_ref(), _title.as_bytes()],
     bump = saving_account.bump_seed)]
     pub saving_account: Account<'info, SavingAccount>,
@@ -15,7 +15,11 @@ pub struct Deposit<'info> {
     pub system_program: Program<'info, System>,
 }
 
-pub fn deposit(_context: Context<Deposit>, _title: String, _amount: u64) -> Result<()> {
+pub fn system_transfer(
+    _context: Context<SystemTransfer>,
+    _title: String,
+    _amount: u64,
+) -> Result<()> {
     let signer = &_context.accounts.signer;
     let saving_account = &_context.accounts.saving_account;
 

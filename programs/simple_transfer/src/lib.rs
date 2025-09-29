@@ -14,7 +14,11 @@ pub mod simple_transfer {
         create_account::create_account(_context, _title)
     }
 
-    pub fn deposit(_context: Context<Deposit>, _title: String, _amount: u64) -> Result<()> {
-        deposit::deposit(_context, _title, _amount)
+    pub fn system_transfer(
+        _context: Context<SystemTransfer>,
+        _title: String,
+        _amount: u64,
+    ) -> Result<()> {
+        system_transfer::system_transfer(_context, _title, _amount)
     }
 }

@@ -1,5 +1,5 @@
 pub mod create_account;
 pub use create_account::*;
 
-pub mod deposit;
-pub use deposit::*;
+pub mod system_transfer;
+pub use system_transfer::*;

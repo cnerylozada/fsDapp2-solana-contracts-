@@ -28,7 +28,7 @@ describe("simple_transfer", () => {
     });
   });
 
-  describe("deposit ix", () => {
+  describe("system_transfer ix", () => {
     it("should send lamports to saving_account", async () => {
       const _title = "My first account";
       const _amount = new anchor.BN(1 * 1_000_000_000);
@@ -41,7 +41,7 @@ describe("simple_transfer", () => {
         saving_account_pda
       );
 
-      await program.methods.deposit(_title, _amount).rpc();
+      await program.methods.systemTransfer(_title, _amount).rpc();
 
       const finalBalance = await provider.connection.getBalance(
         saving_account_pda
