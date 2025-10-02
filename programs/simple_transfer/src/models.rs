@@ -9,4 +9,5 @@ pub struct SavingAccount {
     pub title: String,
     pub created_at: u64,
     pub bump_seed: u8,
+    pub balance: u64,
 }

@@ -25,13 +25,13 @@ describe("simple_transfer", () => {
       );
       assert(savingAccount.title === _title);
       assert(savingAccount.bumpSeed === bump_seed);
+      assert(savingAccount.balance.isZero());
     });
   });
 
   describe("system_transfer ix", () => {
     it("should send lamports to saving_account", async () => {
       const _title = "My first account";
-      const _amount = new anchor.BN(1 * 1_000_000_000);
       const [saving_account_pda] = anchor.web3.PublicKey.findProgramAddressSync(
         [wallet.publicKey.toBuffer(), Buffer.from(_title)],
         program.programId
@@ -41,12 +41,21 @@ describe("simple_transfer", () => {
         saving_account_pda
       );
 
-      await program.methods.systemTransfer(_title, _amount).rpc();
+      const _amount = new anchor.BN(1 * 1_000_000_000);
+      const iterations = new anchor.BN(2);
+      for (let index = 0; index < iterations.toNumber(); index++) {
+        await program.methods.systemTransfer(_title, _amount).rpc();
+      }
+
+      const savingAccount = await program.account.savingAccount.fetch(
+        saving_account_pda
+      );
+      assert(savingAccount.balance.eq(_amount.mul(iterations)));
 
       const finalBalance = await provider.connection.getBalance(
         saving_account_pda
       );
-      assert(finalBalance - initBalance === _amount.toNumber());
+      assert(finalBalance - initBalance === _amount.mul(iterations).toNumber());
     });
   });
 });

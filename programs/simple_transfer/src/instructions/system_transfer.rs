@@ -21,11 +21,12 @@ pub fn system_transfer(
     _amount: u64,
 ) -> Result<()> {
     let signer = &_context.accounts.signer;
-    let saving_account = &_context.accounts.saving_account;
+    let saving_account = &mut _context.accounts.saving_account;
 
     if signer.lamports() < _amount {
         return Err(Errors::NotEnoughFunds.into());
     }
+    saving_account.balance += _amount;
 
     let transfer_ix = anchor_lang::solana_program::system_instruction::transfer(
         &signer.key(),
