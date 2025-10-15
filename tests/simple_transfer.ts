@@ -58,4 +58,24 @@ describe("simple_transfer", () => {
       assert(finalBalance - initBalance === _amount.mul(iterations).toNumber());
     });
   });
+
+  describe("cpi_transfer ix", () => {
+    it("should send lamports to vault_account", async () => {
+      const [vault_account_pda] = anchor.web3.PublicKey.findProgramAddressSync(
+        [Buffer.from("vault"), wallet.publicKey.toBuffer()],
+        program.programId
+      );
+      const initBalance = await provider.connection.getBalance(
+        vault_account_pda
+      );
+
+      const _amount = new anchor.BN(1 * 1_000_000_000);
+      await program.methods.cpiTransfer(_amount).rpc();
+
+      const finalBalance = await provider.connection.getBalance(
+        vault_account_pda
+      );
+      assert(finalBalance - initBalance === _amount.toNumber());
+    });
+  });
 });

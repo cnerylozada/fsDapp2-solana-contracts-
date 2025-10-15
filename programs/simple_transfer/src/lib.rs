@@ -21,4 +21,8 @@ pub mod simple_transfer {
     ) -> Result<()> {
         system_transfer::system_transfer(_context, _title, _amount)
     }
+
+    pub fn cpi_transfer(_context: Context<CPITransfer>, _amount: u64) -> Result<()> {
+        cpi_transfer::cpi_transfer(_context, _amount)
+    }
 }
