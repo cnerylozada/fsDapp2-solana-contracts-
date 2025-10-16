@@ -60,6 +60,27 @@ describe("simple_transfer", () => {
     });
   });
 
+  describe("system_withdraw ix", () => {
+    it("should withdraw funds from saving_account", async () => {
+      const _title = "My first account";
+
+      const [saving_account_pda] = anchor.web3.PublicKey.findProgramAddressSync(
+        [wallet.publicKey.toBuffer(), Buffer.from(_title)],
+        program.programId
+      );
+      const initialBalance = await provider.connection.getBalance(
+        saving_account_pda
+      );
+      const withdrawal = new anchor.BN(1 * 1_000_000_000);
+      await program.methods.systemWithdraw(_title, withdrawal).rpc();
+
+      const finalBalance = await provider.connection.getBalance(
+        saving_account_pda
+      );
+      assert(initialBalance - finalBalance === withdrawal.toNumber());
+    });
+  });
+
   describe("cpi_transfer ix", () => {
     it("should send lamports to vault_account", async () => {
       const [vault_account_pda] = anchor.web3.PublicKey.findProgramAddressSync(

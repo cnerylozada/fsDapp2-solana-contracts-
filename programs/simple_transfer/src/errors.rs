@@ -4,6 +4,8 @@ use anchor_lang::prelude::*;
 pub enum Errors {
     #[msg("Not enough funds")]
     NotEnoughFunds,
+    #[msg("Not allowed oepration")]
+    NotAllowedOperation,
     #[msg("Transfer failed")]
     TransferError,
 }
