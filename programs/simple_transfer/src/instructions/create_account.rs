@@ -17,6 +17,7 @@ pub struct CreateAccount<'info> {
 
 pub fn create_account(_context: Context<CreateAccount>, _title: String) -> Result<()> {
     let saving_account = &mut _context.accounts.saving_account;
+    saving_account.owner = _context.accounts.signer.key();
     saving_account.title = _title;
     let now = (Clock::get().unwrap().unix_timestamp) as u64;
     saving_account.created_at = now;

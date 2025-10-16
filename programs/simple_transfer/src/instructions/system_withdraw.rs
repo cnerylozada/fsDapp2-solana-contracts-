@@ -13,9 +13,12 @@ pub struct SystemWithdraw<'info> {
 
 pub fn system_withdraw(_context: Context<SystemWithdraw>, _amount: u64) -> Result<()> {
     let saving_account = &mut _context.accounts.saving_account;
+
     if _amount > saving_account.balance {
         return Err(NotEnoughFunds.into());
     }
+
+    // saving_account.to_account_info().try_borrow_mut_lamports()? -= _amount;
 
     saving_account.balance -= _amount;
     Ok(())

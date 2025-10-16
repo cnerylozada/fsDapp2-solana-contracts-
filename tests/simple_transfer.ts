@@ -23,6 +23,7 @@ describe("simple_transfer", () => {
       const savingAccount = await program.account.savingAccount.fetch(
         saving_account_pda
       );
+      assert(savingAccount.owner.equals(wallet.publicKey));
       assert(savingAccount.title === _title);
       assert(savingAccount.bumpSeed === bump_seed);
       assert(savingAccount.balance.isZero());
