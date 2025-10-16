@@ -21,6 +21,5 @@ pub fn create_account(_context: Context<CreateAccount>, _title: String) -> Resul
     let now = (Clock::get().unwrap().unix_timestamp) as u64;
     saving_account.created_at = now;
     saving_account.bump_seed = _context.bumps.saving_account;
-
     Ok(())
 }

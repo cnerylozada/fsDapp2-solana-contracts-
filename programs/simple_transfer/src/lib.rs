@@ -22,6 +22,10 @@ pub mod simple_transfer {
         system_transfer::system_transfer(_context, _title, _amount)
     }
 
+    pub fn system_withdraw(_context: Context<SystemWithdraw>, _amount: u64) -> Result<()> {
+        system_withdraw::system_withdraw(_context, _amount)
+    }
+
     pub fn cpi_transfer(_context: Context<CPITransfer>, _amount: u64) -> Result<()> {
         cpi_transfer::cpi_transfer(_context, _amount)
     }

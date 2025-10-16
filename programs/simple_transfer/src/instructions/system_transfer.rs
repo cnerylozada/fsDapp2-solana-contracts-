@@ -1,7 +1,7 @@
 use crate::errors::Errors::{NotEnoughFunds, TransferError};
 use crate::models::SavingAccount;
 use anchor_lang::prelude::*;
-use anchor_lang::solana_program::{program, system_instruction};
+use anchor_lang::solana_program::{program::invoke, system_instruction::transfer};
 
 #[derive(Accounts)]
 #[instruction(_title: String)]
@@ -29,14 +29,13 @@ pub fn system_transfer(
     }
     saving_account.balance += _amount;
 
-    let transfer_ix = system_instruction::transfer(&signer.key(), &saving_account.key(), _amount);
-    let transfer_tx = program::invoke(
+    let transfer_ix = transfer(&signer.key(), &saving_account.key(), _amount);
+    let transfer_tx = invoke(
         &transfer_ix,
         &[signer.to_account_info(), saving_account.to_account_info()],
     );
     if transfer_tx.is_err() {
         return Err(TransferError.into());
     }
-
     Ok(())
 }
