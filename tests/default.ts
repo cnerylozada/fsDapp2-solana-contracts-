@@ -1,6 +1,11 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { Default } from "../target/types/default";
+import {
+  confirmTransaction,
+  createAccountsMintsAndTokenAccounts,
+  makeKeypairs,
+} from "@solana-developers/helpers";
 
 describe("default", () => {
   // Configure the client to use the local cluster.
