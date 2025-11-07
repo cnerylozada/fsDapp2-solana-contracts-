@@ -18,8 +18,8 @@ pub mod claim_swap_tokens {
         instructions::transfer_tokens(_context, _amount)
     }
 
-    pub fn create_main_vault(_context: Context<CreateMainVault>) -> Result<()> {
-        Ok(())
+    pub fn create_main_vault(_context: Context<CreateMainVault>, _title: String) -> Result<()> {
+        instructions::create_main_vault(_context, _title)
     }
     pub fn fund_main_vault(_context: Context<FundMainVault>, _amount: u64) -> Result<()> {
         let transfer_accounts = TransferChecked {
@@ -47,24 +47,28 @@ pub mod claim_swap_tokens {
         Ok(())
     }
 
-    pub fn claim_tokens(_context:Context<ClaimTokens>, _amount: u64) -> Result<()>{
+    pub fn claim_tokens(_context: Context<ClaimTokens>, _amount: u64) -> Result<()> {
         let signer_seeds: &[&[&[u8]]] = &[&[b"token", &[_context.bumps.tokenx_x_vault]]];
 
         let transfer_accounts = TransferChecked {
             mint: _context.accounts.token_mint_x.to_account_info(),
             from: _context.accounts.tokenx_x_vault.to_account_info(),
-            to: _context.accounts.recipient_token_x_account.to_account_info(),
+            to: _context
+                .accounts
+                .recipient_token_x_account
+                .to_account_info(),
             authority: _context.accounts.tokenx_x_vault.to_account_info(),
         };
         let cpi_context = CpiContext::new(
             _context.accounts.token_program.to_account_info(),
-            transfer_accounts
-        ).with_signer(signer_seeds);
-        
+            transfer_accounts,
+        )
+        .with_signer(signer_seeds);
+
         let transfer_tx = transfer_checked(
             cpi_context,
             _amount,
-            _context.accounts.token_mint_x.decimals
+            _context.accounts.token_mint_x.decimals,
         );
 
         if transfer_tx.is_err() {
@@ -73,30 +77,6 @@ pub mod claim_swap_tokens {
 
         Ok(())
     }
-}
-
-
-
-#[derive(Accounts)]
-struct CreateMainVault<'info> {
-    #[account(mut)]
-    pub signer: Signer<'info>,
-
-    #[account(mut)]
-    pub token_mint_x: InterfaceAccount<'info, Mint>,
-
-    #[account(
-        init,
-        payer = signer,
-        token::mint = token_mint_x,
-        token::authority = token_x_vault,
-        seeds = [b"token"],
-        bump    
-    )]
-    pub token_x_vault: InterfaceAccount<'info, TokenAccount>,
-
-    pub token_program: Interface<'info, TokenInterface>,
-    pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
@@ -125,7 +105,7 @@ struct FundMainVault<'info> {
 }
 
 #[derive(Accounts)]
-struct ClaimTokens<'info>{
+struct ClaimTokens<'info> {
     #[account(mut)]
     pub signer: Signer<'info>,
 
@@ -153,5 +133,4 @@ struct ClaimTokens<'info>{
     pub token_program: Interface<'info, TokenInterface>,
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub system_program: Program<'info, System>,
-
 }
