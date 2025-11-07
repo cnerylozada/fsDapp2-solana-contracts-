@@ -176,9 +176,17 @@ struct ClaimTokens<'info>{
     )]
     pub tokenx_x_vault: InterfaceAccount<'info, TokenAccount>,
 
-    #[account(mut)]
+    #[account(
+        init_if_needed,
+        payer = signer,
+        associated_token::mint = token_mint_x,
+        associated_token::authority = signer,
+        associated_token::token_program = token_program
+    )]
     pub recipient_token_x_account: InterfaceAccount<'info, TokenAccount>,
 
     pub token_program: Interface<'info, TokenInterface>,
-    pub associated_token_program: Program<'info, AssociatedToken>
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    pub system_program: Program<'info, System>,
+
 }
