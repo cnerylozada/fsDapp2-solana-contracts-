@@ -7,6 +7,7 @@ use anchor_spl::{
 use crate::{constants::SWAP_TOKEN_TAG, errors::CustomError};
 
 #[derive(Accounts)]
+#[instruction(_title: String)]
 pub struct FundMainVault<'info> {
     #[account(mut)]
     pub signer: Signer<'info>,
@@ -21,7 +22,7 @@ pub struct FundMainVault<'info> {
         mut,
         token::mint = token_mint,
         token::authority = recipient_token_account,
-        seeds = [SWAP_TOKEN_TAG],
+        seeds = [SWAP_TOKEN_TAG, signer.key().as_ref(), _title.as_bytes()],
         bump
     )]
     pub recipient_token_account: InterfaceAccount<'info, TokenAccount>,
