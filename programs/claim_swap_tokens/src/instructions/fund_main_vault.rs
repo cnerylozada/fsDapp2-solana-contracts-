@@ -30,7 +30,11 @@ pub struct FundMainVault<'info> {
     pub associated_token_program: Program<'info, AssociatedToken>,
 }
 
-pub fn fund_main_vault(_context: Context<FundMainVault>, _amount: u64) -> Result<()> {
+pub fn fund_main_vault(
+    _context: Context<FundMainVault>,
+    _title: String,
+    _amount: u64,
+) -> Result<()> {
     let cpi_accounts = TransferChecked {
         mint: _context.accounts.token_mint.to_account_info(),
         from: _context.accounts.sender_token_account.to_account_info(),
