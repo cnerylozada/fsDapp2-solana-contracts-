@@ -1,6 +1,8 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 
+use crate::constants::SWAP_TOKEN_TAG;
+
 #[derive(Accounts)]
 pub struct CreateMainVault<'info> {
     #[account(mut)]
@@ -14,7 +16,7 @@ pub struct CreateMainVault<'info> {
         payer = signer,
         token::mint = token_mint,
         token::authority = token_vault,
-        seeds = [b"swap_token"],
+        seeds = [SWAP_TOKEN_TAG],
         bump
     )]
     pub token_vault: InterfaceAccount<'info, TokenAccount>,
