@@ -15,22 +15,18 @@ pub mod claim_swap_tokens {
         instructions::transfer_tokens(_context, _amount)
     }
 
-    pub fn create_main_vault(_context: Context<CreateMainVault>, _title: String) -> Result<()> {
-        instructions::create_main_vault(_context, _title)
+    pub fn create_main_vault(_context: Context<CreateMainVault>) -> Result<()> {
+        instructions::create_main_vault(_context)
     }
-    pub fn fund_main_vault(
-        _context: Context<FundMainVault>,
-        _title: String,
-        _amount: u64,
-    ) -> Result<()> {
-        instructions::fund_main_vault(_context, _title, _amount)
+    pub fn fund_main_vault(_context: Context<FundMainVault>, _amount: u64) -> Result<()> {
+        instructions::fund_main_vault(_context, _amount)
     }
 
     pub fn claim_tokens(
         _context: Context<ClaimTokens>,
-        _title: String,
+        _admin: Pubkey,
         _amount: u64,
     ) -> Result<()> {
-        instructions::claim_tokens(_context, _title, _amount)
+        instructions::claim_tokens(_context, _admin, _amount)
     }
 }

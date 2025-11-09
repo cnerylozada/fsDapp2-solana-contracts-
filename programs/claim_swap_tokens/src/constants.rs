@@ -1,5 +1,7 @@
 pub const ACCOUNT_DISCRIMINATOR: usize = 8;
 
-pub const MAIN_VAULT_ACCOUNT_TAG: &[u8; 18] = b"main_vault_account";
+pub const SWAP_TOKEN_TAG: &[u8; 11] = b"swap_token1";
 
-pub const SWAP_TOKEN_TAG: &[u8; 10] = b"swap_token";
+pub const CLAIM_RECORD_TAG: &[u8; 13] = b"claim_record1";
+
+pub const MAX_TOKENS_CLAIMED: u64 = 4;

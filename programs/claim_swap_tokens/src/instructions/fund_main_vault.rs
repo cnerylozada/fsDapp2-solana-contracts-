@@ -7,10 +7,9 @@ use anchor_spl::{
 use crate::{constants::SWAP_TOKEN_TAG, errors::CustomError};
 
 #[derive(Accounts)]
-#[instruction(_title: String)]
 pub struct FundMainVault<'info> {
     #[account(mut)]
-    pub signer: Signer<'info>,
+    pub admin: Signer<'info>,
 
     #[account(mut)]
     pub token_mint: InterfaceAccount<'info, Mint>,
@@ -22,7 +21,7 @@ pub struct FundMainVault<'info> {
         mut,
         token::mint = token_mint,
         token::authority = recipient_token_account,
-        seeds = [SWAP_TOKEN_TAG, signer.key().as_ref(), _title.as_bytes()],
+        seeds = [SWAP_TOKEN_TAG, token_mint.key().as_ref(), admin.key().as_ref()],
         bump
     )]
     pub recipient_token_account: InterfaceAccount<'info, TokenAccount>,
@@ -31,16 +30,12 @@ pub struct FundMainVault<'info> {
     pub associated_token_program: Program<'info, AssociatedToken>,
 }
 
-pub fn fund_main_vault(
-    _context: Context<FundMainVault>,
-    _title: String,
-    _amount: u64,
-) -> Result<()> {
+pub fn fund_main_vault(_context: Context<FundMainVault>, _amount: u64) -> Result<()> {
     let cpi_accounts = TransferChecked {
         mint: _context.accounts.token_mint.to_account_info(),
         from: _context.accounts.sender_token_account.to_account_info(),
         to: _context.accounts.recipient_token_account.to_account_info(),
-        authority: _context.accounts.signer.to_account_info(),
+        authority: _context.accounts.admin.to_account_info(),
     };
     let cpi_context = CpiContext::new(
         _context.accounts.token_program.to_account_info(),

@@ -4,4 +4,6 @@ use anchor_lang::prelude::*;
 pub enum CustomError {
     #[msg("Transfer failed")]
     TransferError,
+    #[msg("User has already claimed the maximum number of tokens.")]
+    ClaimLimitExceeded,
 }
