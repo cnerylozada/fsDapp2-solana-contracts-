@@ -3,6 +3,7 @@ use anchor_lang::prelude::*;
 mod constants;
 mod errors;
 mod instructions;
+mod models;
 use instructions::*;
 
 declare_id!("3JNmFZBLAZDKEAAoYszwRWzV7Ha31JyGsZMsQGLP4jfz");
@@ -28,5 +29,10 @@ pub mod swap {
             token_offered_amount,
             token_wanted_amount,
         )
+    }
+
+    pub fn take_offer(_context: Context<TakeOffer>, _id: String, _maker: Pubkey) -> Result<()> {
+        instructions::take_offer::send_wanted_tokens_to_maker(&_context, &_id);
+        instructions::take_offer::withdraw_offered_tokens(_context, _id)
     }
 }
