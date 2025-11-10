@@ -9,6 +9,7 @@ skip-lint = false
 claim_swap_tokens = "5a2dQe4CbrnJsuxzN7JCGup987km9Vjcnep9GvGwMHjs"
 default = "FBvqDQBVxwaeai19TdAnhsLZ1xFdCk2XKKp9u5Tooa8f"
 simple_transfer = "DnDa7gtFZNmZMPupeJZVU5TK1FEwJTxBSR9C9cPzxr2G"
+swap = "3JNmFZBLAZDKEAAoYszwRWzV7Ha31JyGsZMsQGLP4jfz"
 
 [registry]
 url = "https://api.apr.dev"
