@@ -52,33 +52,6 @@ pub fn send_offered_tokens_to_vault(
     _context: &Context<MakeOffer>,
     _token_offered_amount: u64,
 ) -> Result<()> {
-    // let cpi_accounts = TransferChecked {
-    //     mint: _context.accounts.token_mint_a.to_account_info(),
-    //     from: _context.accounts.sender_token_account_a.to_account_info(),
-    //     to: _context
-    //         .accounts
-    //         .recipient_token_account_a
-    //         .to_account_info(),
-    //     authority: _context.accounts.signer.to_account_info(),
-    // };
-
-    // let cpi_context = CpiContext::new(
-    //     _context.accounts.token_program.to_account_info(),
-    //     cpi_accounts,
-    // );
-
-    // let transfer_tx = transfer_checked(
-    //     cpi_context,
-    //     _token_offered_amount,
-    //     _context.accounts.token_mint_a.decimals,
-    // );
-
-    // if transfer_tx.is_err() {
-    //     return Err(CustomError::TransferError.into());
-    // }
-
-    // Ok(())
-
     transfer_tokens(
         &_context.accounts.token_mint_a,
         &_context.accounts.sender_token_account_a,

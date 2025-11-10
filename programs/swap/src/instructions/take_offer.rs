@@ -56,33 +56,7 @@ pub struct TakeOffer<'info> {
 }
 
 pub fn send_wanted_tokens_to_maker(_context: &Context<TakeOffer>, _id: &String) -> Result<()> {
-    // let cpi_accounts = TransferChecked {
-    //     mint: _context.accounts.token_mint_b.to_account_info(),
-    //     from: _context.accounts.sender_token_account_b.to_account_info(),
-    //     to: _context
-    //         .accounts
-    //         .recipient_token_account_b
-    //         .to_account_info(),
-    //     authority: _context.accounts.signer.to_account_info(),
-    // };
-
-    // let cpi_context = CpiContext::new(
-    //     _context.accounts.token_program.to_account_info(),
-    //     cpi_accounts,
-    // );
-
     let token_wanted_amount = _context.accounts.offer.token_wanted_amount;
-    // let transfer_tx = transfer_checked(
-    //     cpi_context,
-    //     token_wanted_amount,
-    //     _context.accounts.token_mint_b.decimals,
-    // );
-
-    // if transfer_tx.is_err() {
-    //     return Err(CustomError::TransferError.into());
-    // }
-
-    // Ok(())
 
     transfer_tokens(
         &_context.accounts.token_mint_b,
