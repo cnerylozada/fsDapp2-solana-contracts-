@@ -11,4 +11,5 @@ pub struct Offer {
     pub token_wanted_amount: u64,
     pub token_offered_amount: u64,
     pub bump: u8,
+    pub was_taken: bool,
 }

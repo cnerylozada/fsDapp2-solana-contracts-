@@ -25,6 +25,7 @@ pub struct TakeOffer<'info> {
     pub recipient_token_account_b: InterfaceAccount<'info, TokenAccount>,
 
     #[account(
+        mut,
         seeds = [OFFER_TAG, _maker.key().as_ref(), _id.as_bytes()],
         bump = offer.bump
     )]
@@ -100,9 +101,12 @@ pub fn withdraw_offered_tokens(_context: Context<TakeOffer>, _id: String) -> Res
         token_offered_amount,
         _context.accounts.token_mint_a.decimals,
     );
-
     if transfer_tx.is_err() {
         return Err(CustomError::TransferError.into());
     }
+
+    let offer = &mut _context.accounts.offer;
+    offer.was_taken = true;
+
     Ok(())
 }

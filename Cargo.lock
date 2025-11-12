@@ -3,6 +3,13 @@
 version = 4
 
 [[package]]
+name = "accounts_lab_1"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang 0.31.1",
+]
+
+[[package]]
 name = "aead"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
